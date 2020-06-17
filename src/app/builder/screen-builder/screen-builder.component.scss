@@ -1,0 +1,29 @@
+
+.draggable {
+
+  margin: 16px;
+  padding: 16px;
+  box-shadow: 0 0 5px 2px rgba(22,22,22,0.4);
+}
+
+.draggable.dndDraggingSource {
+
+  /* display:none; */
+
+  opacity: 0.5;
+}
+
+.dropzone {
+
+  margin: 16px;
+  padding: 16px;
+  border: 1px red solid;
+}
+
+.dropzone.dndDragover {
+
+  border-color: green;
+}
+.mfs-screen-builder{
+  margin: 15px;
+}
