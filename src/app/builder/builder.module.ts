@@ -9,6 +9,8 @@ import { OneColumnLayoutBuilderComponent } from './one-column-layout-builder/one
 import { TwoColumnLayoutBuilderComponent } from './two-column-layout-builder/two-column-layout-builder.component';
 import { DynamicFieldBuilderComponent } from './dynamic-field-builder/dynamic-field-builder.component';
 import { BuilderTestPageComponent } from './builder-test-page/builder-test-page.component';
+import { ScreenDetailsComponent } from './screen-details/screen-details.component';
+import { DynamicFieldsComponent } from './dynamic-fields/dynamic-fields.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { BuilderTestPageComponent } from './builder-test-page/builder-test-page.
     TwoColumnLayoutBuilderComponent,
     DynamicFieldBuilderComponent,
     BuilderTestPageComponent,
+    ScreenDetailsComponent,
+    DynamicFieldsComponent,
   ],
   imports: [MfsCommonModule, DndModule],
 })

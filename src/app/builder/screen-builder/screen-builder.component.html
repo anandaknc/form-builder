@@ -1,10 +1,10 @@
 <div class="mfs-screen-builder">
   <div *ngIf="model && !report" class="padding20 white-bg">
-    <div class="row">
+    <div class="row screen-header">
       <div class="col-12">
         <div class="btn-cont">
-          <button (click)="initReport()" class="btn btn-primary pull-left">Response</button>
-          <button (click)="updateForm()" class="btn btn-primary pull-right">Update</button>
+          <h2 class="pull-left">Screen Builder</h2>
+          <button class="btn btn-primary pull-right" (click)="updateForm()" class="btn btn-primary pull-right">Update</button>
           <button class="btn btn-primary pull-right" style="margin-right:3px;">View <i
               class="fa fa-external-link"></i></button>
         </div>
@@ -12,198 +12,20 @@
     </div>
     <div class="spacer30"></div>
     <div class="row">
-      <div class="col-4">
-
-        <div class="row">
-          <label class="col-8">Background Color</label>
-          <input class="colorpick col-4" type="color" name="bgColor" [(ngModel)]="model.theme.bgColor">
-        </div>
-        <div class="row">
-          <label class="col-8">Text Color</label>
-          <input class="colorpick col-4" type="color" name="textColor" [(ngModel)]="model.theme.textColor">
-        </div>
+      <div class="screen-left-side col-4">
+        <app-screen-details [model]="model"></app-screen-details>
 
         <h4>Select Fields</h4>
         <p>Customize your form by drag and drop below fields to the form area.</p>
         <!--a draggable element-->
-        <div class="fields" *ngFor="let item of fieldModels">
-          <div class="field pointer shadow-bg" [dndDraggable]="item" [dndEffectAllowed]="'copy'"
-            (dndEnd)="onDragEnd($event)">
-            <i [ngClass]="item.icon" class="fa fa-lg pull-left"></i>
-            <h5>{{item.label}}</h5>
-          </div>
-        </div>
-
+        <div class="fields-list">
+        <app-dynamic-fields></app-dynamic-fields>
       </div>
-      <div class="col-8">
+      </div>
+      <div class="screen-right-side col-8">
 
-        <div class="form-group" style="margin-bottom: 0px !important; padding: 30px 60px 5px 60px;"
-          [style.backgroundColor]="model.theme.bgColor" [style.color]="model.theme.textColor">
-          <h2><input class="form-control" type="text" [(ngModel)]="model.name" /></h2>
-          <input class="form-control" type="text" [(ngModel)]="model.description" />
-        </div>
-
-        <!--a dropzone-->
-        <!--to allow dropping content that is not [dndDraggable] set dndAllowExternal to true-->
-        <section dndDropzone (dndDragover)="onDragover($event)" (dndDrop)="onDrop($event,model.attributes)"
-          class="dndDropArea empty"
-          [style.backgroundColor]="model.theme.bgColor" [style.color]="model.theme.textColor">
-
-          <div class="field" *ngFor="let item of model.attributes;let i= index;" (dndStart)="onDragStart($event)"
-            (dndCanceled)="onDragCanceled($event)" (dndMoved)="onDragged(item, model.attributes, 'move')"
-            [dndEffectAllowed]="'all'" [dndDraggable]="item">
-            <app-dynamic-field-builder [field]="item"></app-dynamic-field-builder>
-          </div>
-          <!--optional placeholder element for dropzone-->
-          <!--will be removed from DOM on init-->
-          <div class="dndPlaceholder" dndPlaceholderRef>
-          </div>
-        </section>
-
+        <app-form-builder [model]="model"></app-form-builder>
       </div>
     </div>
   </div>
-
-
-
-  <div *ngIf="report" class="padding20 white-bg">
-    <div class="row">
-      <div class="col-12 btn-cont">
-        <button (click)="report=false" class="btn btn-primary">
-          << Back</button>
-      </div>
-      <div class="col-12 spacer30"></div>
-      <!-- if records found -->
-      <div *ngIf="reports?.length > 0" class="col-12">
-        <div *ngFor="let records of reports" class="report-block">
-          <div *ngFor="let record of records.attributes">
-            <div *ngIf="record.type !='button' && record.type !='paragraph'" class="row">
-              <div class="col-4">{{record.label}}</div>
-              <div class="col-8">{{record.value}}</div>
-            </div>
-          </div>
-        </div>
-        <!-- <pre>{{reports|json}}</pre> -->
-      </div>
-      <!-- if no records found -->
-      <div *ngIf="reports?.length == 0" class="col-12 btn-cont">
-        No response found
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- <pre *ngIf="model">{{model|json}}</pre> -->
-
-
-  <div *ngIf="model" class="container marginT60  marginB30" style="max-width:500px;">
-
-    <div class="row" style="padding:30px;" [style.backgroundColor]="model.theme.bgColor"
-      [style.color]="model.theme.textColor">
-      <div class="col-12">
-        <h2>{{model.name}}</h2>
-      </div>
-      <div class="col-12">
-        <p>{{model.description}}</p>
-      </div>
-      <div *ngIf="success" class="col-12">
-        <div class="form-group">
-          <label>Your form has been submitted.</label>
-        </div>
-      </div>
-      <form class="ftheme">
-        <div *ngIf="!success" class="col-12">
-          <div *ngFor="let item of model.attributes" class="form-group">
-            <div *ngIf="item.type=='text'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <input type="text" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
-                [(ngModel)]="item.value" [required]="item.required" [ngModelOptions]="{standalone: true}"
-                autocomplete="off">
-            </div>
-            <div *ngIf="item.type=='email'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <input type="email" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
-                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
-            </div>
-            <div *ngIf="item.type=='phone'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <input type="email" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
-                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
-            </div>
-            <div *ngIf="item.type=='number'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <input type="number" class="form-control" id="{{item.name}}" min="{{item.min}}" max="{{item.max}}"
-                placeholder="{{item.placeholder}}" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"
-                autocomplete="off">
-            </div>
-            <div *ngIf="item.type=='date'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <input type="date" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
-                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
-            </div>
-            <div *ngIf="item.type=='datetime-local'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <input type="datetime-local" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
-                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
-            </div>
-            <div *ngIf="item.type=='textarea'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <textarea class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
-                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
-          </textarea>
-            </div>
-            <div *ngIf="item.type=='file'">
-              <label>{{item.label}} (File can't be uploaded right now)</label> <label *ngIf="item.required"
-                class="text-danger">*</label>
-              <input type="file" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}"
-                [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" autocomplete="off">
-              <small class="form-text text-danger">(File can't be uploaded right now)</small>
-            </div>
-            <div *ngIf="item.type=='paragraph'">
-              <p class="form-text">{{item.placeholder}}</p>
-            </div>
-            <div *ngIf="item.type=='autocomplete'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <select class="form-control" id="{{item.name}}" [(ngModel)]="item.value"
-                [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let v of item.values" [value]="v.value">{{v.label}}</option>
-              </select>
-              <!-- <small class="form-text text-muted">{{item.description}}</small> -->
-            </div>
-            <div *ngIf="item.type=='checkbox'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <div *ngFor="let v of item.values" class="inline-form-group">
-                <label class="cust-check-bx">
-                  <input type="checkbox" [value]="v.value" name="{{item.name}}" (click)="toggleValue(v)"> {{v.label}}
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-            </div>
-            <div *ngIf="item.type=='radio'">
-              <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-              <div *ngFor="let v of item.values" class="inline-form-group">
-                <label class="cust-check-bx">
-                  <input type="radio" [value]="v.value" name="{{item.name}}" [(ngModel)]="item.value"
-                    [ngModelOptions]="{standalone: true}"> {{v.label}}
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-            </div>
-            <div *ngIf="item.type=='button'" class="btn-cont">
-              <input type="{{item.subtype}}" (click)="submit()" value="{{item.label}}" class="btn btn-primary"
-                id="{{item.name}}">
-            </div>
-          </div>
-
-          <p class="marginT60 pointer">Show developer data</p>
-
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <pre *ngIf="model">
-    {{model|json}}
-</pre>
 </div>

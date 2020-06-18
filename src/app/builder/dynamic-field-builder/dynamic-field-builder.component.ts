@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Field } from '../global.types';
 
 @Component({
@@ -7,8 +7,8 @@ import { Field } from '../global.types';
   styleUrls: ['./dynamic-field-builder.component.scss'],
 })
 export class DynamicFieldBuilderComponent implements OnInit {
-
   @Input('field') item: Field;
+  @Output() deleted = new EventEmitter<Field>();
   constructor() {}
 
   ngOnInit(): void {}
@@ -16,6 +16,8 @@ export class DynamicFieldBuilderComponent implements OnInit {
   toggleValue(item: Field) {
     item.selected = !item.selected;
   }
-  removeField(item: Field) {}
+  removeField(item: Field) {
+    this.deleted.emit(this.item);
+  }
   addValue(values) {}
 }
