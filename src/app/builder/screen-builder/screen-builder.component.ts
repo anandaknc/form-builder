@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DndDropEvent, DropEffect } from 'ngx-drag-drop';
 import swal from 'sweetalert2';
 
-import { field, value } from '../global.types';
+import { Field, Value } from '../global.types';
 
 @Component({
   selector: 'app-screen-builder',
@@ -14,11 +14,11 @@ export class ScreenBuilderComponent implements OnInit {
   report = false;
   success = false;
   show = false;
-  value: value = {
+  value: Value = {
     label: '',
     value: '',
   };
-  fieldModels: Array<field> = [
+  fieldModels: Array<Field> = [
     {
       type: 'text',
       icon: 'fa-font',
@@ -162,7 +162,7 @@ export class ScreenBuilderComponent implements OnInit {
     },
   ];
 
-  modelFields: Array<field> = [];
+  modelFields: Array<Field> = [];
   model: any = {
     name: 'Screen Name',
     description: 'Screen Description',

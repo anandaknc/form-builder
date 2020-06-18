@@ -1,28 +1,29 @@
-export class field{
-  _id?:any;
-  name?:any;
-  type?:any;
-  icon?:any;
-  toggle?:any;
-  required?:any;
-  regex?:any;
-  errorText?:any;
-  label?:any;
-  description?:any;
-  placeholder?:any;
-  className?:any;
-  subtype?:any;
-  handle?:any;
-  min?:number;
-  max?:number;
-  inline?:any;
-  value?:any;
-  values?:Array<value>;
+export class Field {
+  _ID?: any;
+  name?: any;
+  type?: any;
+  icon?: any;
+  toggle?: any;
+  required?: any;
+  regex?: any;
+  errorText?: any;
+  label?: any;
+  description?: any;
+  placeholder?: any;
+  className?: any;
+  subtype?: any;
+  handle?: any;
+  min?: number;
+  max?: number;
+  inline?: any;
+  value?: any;
+  values?: Array<Value>;
+  selected?: boolean;
 }
 
-export class value{
-  label?:any="";
-  value?:any="";
+export class Value {
+  label?: any = '';
+  value?: any = '';
 }
 
 export interface IProperty {
@@ -114,8 +115,8 @@ export interface IProperty {
   flag?: number;
   page?: number;
   property_for?: any;
-  status_id?:any;
-  type_id?:any;
-  post_type?:any;
-  developer_id?:any;
+  status_id?: any;
+  type_id?: any;
+  post_type?: any;
+  developer_id?: any;
 }
