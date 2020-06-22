@@ -13,7 +13,8 @@ import { BuilderModule } from './builder/builder.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BuilderModule
+    BuilderModule,
+    DynamicModule
   ],
   providers: [],
   bootstrap: [AppComponent]
