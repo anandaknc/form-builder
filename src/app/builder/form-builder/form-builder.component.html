@@ -1,5 +1,5 @@
 <section dndDropzone (dndDragover)="onDragover($event)" (dndDrop)="onDrop($event,model.attributes)"
-  class="dndDropArea empty" [style.backgroundColor]="model.theme.bgColor" [style.color]="model.theme.textColor">
+  class="dndDropArea empty" [style.backgroundColor]="model?.theme?.bgColor" [style.color]="model?.theme?.textColor">
 
   <div class="field" *ngFor="let item of model.attributes;let i= index;" (dndStart)="onDragStart($event)"
     (dndCanceled)="onDragCanceled($event)" (dndMoved)="onDragged(item, model.attributes, 'move')"

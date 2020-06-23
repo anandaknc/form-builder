@@ -1,6 +1,6 @@
 <div class="row">
   <label class="col-4">Screen Id</label>
-  <input class="form-control col-6" type="text" [(ngModel)]="model.id" />
+  <input class="form-control col-6" type="text" [(ngModel)]="model.screenId" />
 </div>
 <div class="row">
   <label class="col-4">Screen Name</label>
@@ -10,11 +10,11 @@
   <label class="col-4">Channel</label>
   <input class="form-control col-6" type="text" [(ngModel)]="model.channel" />
 </div>
-<div class="row">
+<div class="row" *ngIf="model.theme">
   <label class="col-4">Background Color</label>
   <input class="colorpick col-6" type="color" name="bgColor" [(ngModel)]="model.theme.bgColor">
 </div>
-<div class="row">
+<div class="row" *ngIf="model.theme">
   <label class="col-4">Text Color</label>
   <input class="colorpick col-6" type="color" name="textColor" [(ngModel)]="model.theme.textColor">
 </div>

@@ -91,11 +91,11 @@
     <label>Name</label>
     <input class="form-control" type="text" [(ngModel)]="item.name" />
   </div>
-  <div class="form-group">
+  <div *ngIf="item.type !=='button'" class="form-group">
     <label>Placeholder</label>
     <input class="form-control" type="text" [(ngModel)]="item.placeholder" />
   </div>
-  <div class="form-group">
+  <div *ngIf="item.type !=='button'"  class="form-group">
     <label>Regex</label>
     <input class="form-control" type="text" [(ngModel)]="item.regex" />
   </div>
@@ -103,7 +103,27 @@
     <label>Error text</label>
     <input class="form-control" type="text" [(ngModel)]="item.errorText" />
   </div>
-
+<!-- button -->
+<div *ngIf="item.type=='button'" class="row">
+  <div class="col-6">
+    <div class="form-group">
+      <label>Api Name</label>
+      <input class="form-control" type="text" [(ngModel)]="item.apiName" />
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="form-group">
+      <label>Api Type</label>
+      <input class="form-control" type="text" [(ngModel)]="item.apiType" />
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="form-group">
+      <label>Method Name</label>
+      <input class="form-control" type="text" [(ngModel)]="item.methodName" />
+    </div>
+  </div>
+</div>
   <!-- number -->
   <div *ngIf="item.type=='number'" class="row">
     <div class="col-6">

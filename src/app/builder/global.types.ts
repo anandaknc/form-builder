@@ -19,6 +19,9 @@ export class Field {
   value?: any;
   values?: Array<Value>;
   selected?: boolean;
+  apiName?: any;
+  apiType?: any;
+  methodName?: any;
 }
 
 export class Value {
@@ -119,4 +122,7 @@ export interface IProperty {
   type_id?: any;
   post_type?: any;
   developer_id?: any;
+  apiName?: any;
+  apiType?: any;
+  methodName?: any;
 }

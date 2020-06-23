@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-custom-screen',
@@ -12,9 +14,24 @@ export class CustomScreenComponent implements OnInit {
   report = false;
   success = false;
   show = false;
-  constructor() {}
+  constructor(private route: ActivatedRoute,
+    private router: Router, private http: HttpClient,) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let screenId = this.route.snapshot.paramMap.get('screenId');
+    let url = 'https://dynamicscreen-ba1bb.firebaseio.com/screens/' + screenId + '.json';
+    this.http.get(url).subscribe((r: any) => {
+      if (r) {
+        if (r.attributes) {
+          r.attributes = JSON.parse(r.attributes);
+        } if (!r.theme) {
+          r.theme = {};
+        }
+        this.model = r;
+      }
+
+    });
+  }
 
 
   toggleValue(item) {
@@ -24,6 +41,8 @@ export class CustomScreenComponent implements OnInit {
   submit() {
     let valid = true;
     const validationArray = JSON.parse(JSON.stringify(this.model.attributes));
+    const attributes:any={};
+
     validationArray.reverse().forEach((field: any) => {
       console.log(field.label + '=>' + field.required + '=>' + field.value);
       if (field.required && !field.value && field.type !== 'checkbox') {
@@ -46,20 +65,28 @@ export class CustomScreenComponent implements OnInit {
           return false;
         }
       }
+      if (field.type === 'checkbox') {
+      attributes[field.name] = field.values;
+      }else if(field.type!== 'button') {
+        attributes[field.name] = field.value;
+      }
     });
     if (!valid) {
       return false;
     }
-    console.log('Save', this.model);
-    const input = new FormData();
-    input.append('formId', this.model._id);
-    input.append('attributes', JSON.stringify(this.model.attributes));
-    // this.us.postDataApi('/user/formFill',input).subscribe(r=>{
-    //   console.log(r);
-    //   swal.fire('Success','You have contact sucessfully','success');
-    //   this.success = true;
-    // },error=>{
-    //   swal.fire('Error',error.message,'error');
-    // });
-  }
+    const formData ={
+      channel: this.model.channel,
+      name: this.model.name
+      , screenId: this.model.screenId, 
+       attributes: JSON.stringify(attributes)
+    }
+   
+    this.saveFormValues(formData);
+}
+saveFormValues(formData){
+  let url ='https://dynamicscreen-ba1bb.firebaseio.com/screensdata/'+formData.screenId+'.json';
+  this.http.post(url,formData).subscribe(r=>{
+    swal.fire('Success','Screen Data updated successfully','success');
+  });
+}
 }
